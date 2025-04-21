@@ -1,0 +1,10 @@
+{
+    "name": "html5module",
+    "version": "0.0.1",
+    "scripts": {
+      "build": "npm run clean && npm run zip",
+      "oldzip-prepend" : "npx bestzip manifest-bundle.zip manifest.json && ",
+      "zip": "npx bestzip FICADashboard-content.zip *",
+      "clean": "npx rimraf FICADashboard-content.zip manifest-bundle.zip"
+    }
+  }

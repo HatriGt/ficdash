@@ -1,0 +1,52 @@
+{
+  "_version": "1.12.0",
+  "sap.cloud": {
+    "public": true,
+    "service": "atom.fica.dashboard"
+  },
+  "sap.app": {
+    "id": "atom.fica.dashboard",
+    "type": "application",
+    "applicationVersion": {
+      "version": "1.0.14"
+    },
+    "title": "FICA Dashboard",
+    "description": "Dashboard for searching FICA documents",
+    "crossNavigation": {
+      "inbounds": {
+        "fe-inbound": {
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          },
+          "semanticObject": "atomficadashboard",
+          "action": "display",
+          "title": "FICA Dashboard",
+          "icon": "sap-icon://add-product"
+        }
+      }
+    },
+    "sap.ui": {
+      "technology": "UI5",
+      "icons": {
+        "icon": "",
+        "favIcon": "",
+        "phone": "",
+        "phone@2": "",
+        "tablet": "",
+        "tablet@2": ""
+      },
+      "deviceTypes": {
+        "desktop": true,
+        "tablet": true,
+        "phone": false
+      }
+    },
+    "sap.ui5": {
+      "flexEnabled": false,
+      "dependencies": {
+        "minUI5Version": "1.111.0"
+      }
+    }
+  }
+}

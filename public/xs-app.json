@@ -1,0 +1,29 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/v2/ficadashboardservice/(.*)$",
+      "target": "/v2/ficadashboardservice/$1",
+      "destination": "FinanceApplications",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa",
+      "cacheControl": "no-cache"
+    },
+
+    {
+      "source": "/auth/^(.*)$",
+      "target": "$1",
+      "destination": "authapi",
+      "authenticationType": "none",
+      "cacheControl": "no-cache"
+    }
+  ]
+}

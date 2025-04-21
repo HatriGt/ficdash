@@ -1,0 +1,89 @@
+ID: atom-fica-dashboard
+_schema-version: 3.2.0
+version: 1.0.5
+parameters:
+  enable-parallel-deployments: true
+  deploy_mode: html5-repo
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npm run build
+modules:
+  - name: FICADashboard
+    type: html5
+    path: build
+    build-parameters:
+      build-result: .
+      builder: custom
+      commands:
+        - npm run build
+      supported-platforms: []
+
+  - name: webapp-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: atom-fica-dashboard-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - FICADashboard-content.zip
+          name: FICADashboard
+          target-path: resources/
+
+  - name: atom-fica-dashboard-destination-content
+    type: com.sap.application.content
+    build-parameters:
+      no-source: true
+    requires:
+      - name: atom-fica-dashboard-uaa
+        parameters:
+          service-key:
+            name: atom-fica-dashboard-uaa-key
+      - name: atom-fica-dashboard-html5-repo-host
+        parameters:
+          service-key:
+            name: atom-fica-dashboard-html5-repo-host-key
+      - name: atom-fica-dashboard-destination
+        parameters:
+          content-target: true
+    parameters:
+      content:
+        instance:
+          existing_destinations_policy: update
+          destinations:
+            - Name: atom-fica-dashboard-destination-html5
+              ServiceInstanceName: atom-fica-dashboard-html5-repo-host
+              ServiceKeyName: atom-fica-dashboard-html5-repo-host-key
+              sap.cloud.service: atom.fica.dashboard
+            - Name: atom-fica-dashboard-destination-uaa
+              Authentication: OAuth2UserTokenExchange
+              ServiceInstanceName: atom-fica-dashboard-uaa
+              ServiceKeyName: atom-fica-dashboard-uaa-key
+              sap.cloud.service: atom.fica.dashboard
+
+resources:
+  - name: atom-fica-dashboard-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: lite
+      service: destination
+      path: ./destination.json
+  - name: atom-fica-dashboard-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+      config:
+        sizeLimit: 2
+  - name: atom-fica-dashboard-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
